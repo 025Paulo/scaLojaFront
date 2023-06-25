@@ -13,7 +13,7 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-function CadastroClientes() {
+function CadastroCliente() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ function CadastroClientes() {
   }
 
   async function salvar() {
-    let data = { id, nome, convenio, cpf, dataNascimento, IdEndereco };
+    let data = { id, nome, cpf, IdEndereco };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -51,7 +51,7 @@ function CadastroClientes() {
         })
         .then(function (response) {
           mensagemSucesso(`Cliente ${nome} cadastrado com sucesso!`);
-          navigate(`/listagem-clientes`);
+          navigate(`/listagem-cliente`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -63,7 +63,7 @@ function CadastroClientes() {
         })
         .then(function (response) {
           mensagemSucesso(`Cliente ${nome} alterado com sucesso!`);
-          navigate(`/listagem-clientes`);
+          navigate(`/listagem-cliente`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -156,4 +156,4 @@ function CadastroClientes() {
   );
 }
 
-export default CadastroClientes;
+export default CadastroCliente;

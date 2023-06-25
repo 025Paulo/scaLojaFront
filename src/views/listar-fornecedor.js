@@ -63,7 +63,7 @@ function ListagemFornecedor() {
   if (!dados) return null;
 
   return (
-    <div className='container'>
+    <div className='container mt-5'>
       <Card title='Listagem de Fornecedores'>
         <div className='row'>
           <div className='col-lg-12'>
@@ -73,19 +73,22 @@ function ListagemFornecedor() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
+                  Novo Fornecedor
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
+                    <th scope='col'>id</th>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>CPF</th>
+                    <th scope='col'>idProduto</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
+                      <td>{dado.idFornecedor}</td>
                       <td>{dado.nome}</td>
-                      <td>{dado.cpf}</td>
+                      <td>{dado.idProduto}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -114,4 +117,4 @@ function ListagemFornecedor() {
   );
 }
 
-export default ListagemFornecedores;
+export default ListagemFornecedor;

@@ -13,12 +13,12 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-function CadastroConsulta() {
+function CadastroProdutos() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/consultas`;
+  const baseURL = `${BASE_URL}/produtos`;
 
   const [id, setId] = useState('');
   const [idCliente, setIdCliente] = useState(0);
@@ -30,8 +30,8 @@ function CadastroConsulta() {
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setIdPaciente('');
-      setIdMedico('');
+      setIdCliente('');
+      setIdCliente('');
       setIdPedido(0);
     } else {
       setId(dados.id);
@@ -42,7 +42,7 @@ function CadastroConsulta() {
   }
 
   async function salvar() {
-    let data = { id, data, idCliente, idFornecedor, idPedido};
+    let data = { id,  idCliente, idFornecedor, idPedido};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -105,10 +105,8 @@ function CadastroConsulta() {
                 <input
                   type='date'
                   id='inputData'
-                  value={data}
                   className='form-control'
                   name='data'
-                  onChange={(e) => setData(e.target.value)}
                 />
               </FormGroup>
               <FormGroup label='ID Cliente: *' htmlFor='inputIdCliente'>
@@ -165,4 +163,4 @@ function CadastroConsulta() {
   );
 }
 
-export default CadastroProduto;
+export default CadastroProdutos;

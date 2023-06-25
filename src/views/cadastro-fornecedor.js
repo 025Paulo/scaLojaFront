@@ -1,114 +1,117 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import Stack from '@mui/material/Stack';
 
 import Card from '../components/card';
+import FormGroup from '../components/form-group';
 
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 // import '../custom.css';
 
-import { useNavigate } from 'react-router-dom';
-
-import Stack from '@mui/material/Stack';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/fornecedores`;
+function CadastroFornecedor() {
+  const { idParam } = useParams();
 
-function ListagemFornecedor() {
-  console.log(baseURL);
   const navigate = useNavigate();
 
-  const cadastrar = () => {
-    navigate(`/cadastro-fornecedor`);
-  };
+  const baseURL = `${BASE_URL}/fornecedores`;
 
-  const editar = (id) => {
-    navigate(`/cadastro-fornecedor/${id}`);
-  };
+  const [id, setId] = useState('');
+  const [nome, setNome] = useState('');
 
-  const [dados, setDados] = React.useState(null);
+  const [dados, setDados] = React.useState([]);
 
-  async function excluir(id) {
-    let data = JSON.stringify({ id });
-    let url = `${baseURL}/${id}`;
-    console.log(url);
-    await axios
-      .delete(url, data, {
-        headers: { 'Content-Type': 'application/json' },
-      })
-      .then(function (response) {
-        mensagemSucesso(`Fornecedor excluído com sucesso!`);
-        setDados(
-          dados.filter((dado) => {
-            return dado.id !== id;
-          })
-        );
-      })
-      .catch(function (error) {
-        mensagemErro(`Erro ao excluir o médico`);
-      });
+  function inicializar() {
+    if (idParam == null) {
+      setId('');
+      setNome('');
+    } else {
+      setId(dados.id);
+      setNome(dados.nome);
+
+    }
   }
 
-  React.useEffect(() => {
-    console.log(baseURL)
-    axios.get(baseURL).then((response) => {
+  async function salvar() {
+    let data = { id, nome,};
+    data = JSON.stringify(data);
+    if (idParam == null) {
+      await axios
+        .post(baseURL, data, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        .then(function (response) {
+          mensagemSucesso(`Fornecedor ${nome} cadastrado com sucesso!`);
+          navigate(`/listagem-fornecedores`);
+        })
+        .catch(function (error) {
+          mensagemErro(error.response.data);
+        });
+    } else {
+      await axios
+        .put(`${baseURL}/${idParam}`, data, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        .then(function (response) {
+          mensagemSucesso(`Fornecedor ${nome} alterado com sucesso!`);
+          navigate(`/listagem-fornecedores`);
+        })
+        .catch(function (error) {
+          mensagemErro(error.response.data);
+        });
+    }
+  }
+
+  async function buscar() {
+    await axios.get(`${baseURL}/${idParam}`).then((response) => {
       setDados(response.data);
     });
-  }, []);
+    setId(dados.id);
+    setNome(dados.nome);
+  }
+
+  useEffect(() => {
+    buscar(); // eslint-disable-next-line
+  }, [id]);
 
   if (!dados) return null;
 
   return (
     <div className='container'>
-      <Card title='Listagem de Fornecedores'>
+      <Card title='Cadastro de fornecedor'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <button
-                type='button'
-                className='btn btn-warning'
-                onClick={() => cadastrar()}
-              >
-                Novo Médico
-              </button>
-              <table className='table table-hover'>
-                <thead>
-                  <tr>
-                    <th scope='col'>Nome</th>
-                    <th scope='col'>Id</th>
-                    <th scope='col'>CPF</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dados.map((dado) => (
-                    <tr key={dado.id}>
-                      <td>{dado.nome}</td>
-                      <td>{dado.id}</td>
-                      <td>{dado.cpf}</td>
-                      <td>
-                        <Stack spacing={1} padding={0} direction='row'>
-                          <IconButton
-                            aria-label='edit'
-                            onClick={() => editar(dado.id)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            aria-label='delete'
-                            onClick={() => excluir(dado.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Stack>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>{' '}
+              <FormGroup label='Nome: *' htmlFor='inputNome'>
+                <input
+                  type='text'
+                  id='inputNome'
+                  value={nome}
+                  className='form-control'
+                  name='nome'
+                  onChange={(e) => setNome(e.target.value)}
+                />
+              </FormGroup>
+              <Stack spacing={1} padding={1} direction='row'>
+                <button
+                  onClick={salvar}
+                  type='button'
+                  className='btn btn-success'
+                >
+                  Salvar
+                </button>
+                <button
+                  onClick={inicializar}
+                  type='button'
+                  className='btn btn-danger'
+                >
+                  Cancelar
+                </button>
+              </Stack>
             </div>
           </div>
         </div>
@@ -117,4 +120,4 @@ function ListagemFornecedor() {
   );
 }
 
-export default ListagemFornecedor;
+export default CadastroFornecedor;

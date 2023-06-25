@@ -63,7 +63,7 @@ function ListagemProdutos() {
   if (!dados) return null;
 
   return (
-    <div className='container'>
+    <div className='container mt-5'>
       <Card title='Listagem de produtos'>
         <div className='row'>
           <div className='col-lg-12'>
@@ -73,12 +73,15 @@ function ListagemProdutos() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
+                Novo produto
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
                     <th scope='col'>ID</th>
                     <th scope='col'>Nome</th>
+                    <th scope='col'>Pedido</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -86,6 +89,7 @@ function ListagemProdutos() {
                     <tr key={dado.id}>
                         <td>{dado.id}</td>
                         <td>{dado.nome}</td>
+                        <td>{dado.pedido}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

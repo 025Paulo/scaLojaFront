@@ -16,9 +16,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/consultas`;
+const baseURL = `${BASE_URL}/pedidos`;
 
-function ListagemConsultas() {
+function ListagemPedidos() {
   console.log(baseURL);
   const navigate = useNavigate();
 
@@ -78,7 +78,7 @@ function ListagemConsultas() {
                 <thead>
                   <tr>
                     <th scope='col'>ID Pedido</th>
-                    <th scope='col'>ID Cliente</th>
+                    <th scope='col'>Nome </th>
                     <th scope='col'>ID Fornecedor</th>
                     <th scope='col'>ID Produto</th>
                   </tr>
@@ -89,8 +89,9 @@ function ListagemConsultas() {
                     <td>{dado.id}</td>
                     <td>{dado.data}</td>
                       <td>{dado.idCliente}</td>
+                      <td>{dado.nome}</td>
                       <td>{dado.idFornecedor}</td>
-                      <td>{dado.idPedido}</td>
+                      <td>{dado.idProduto}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

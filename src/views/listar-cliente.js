@@ -63,7 +63,7 @@ function ListagemCliente() {
   if (!dados) return null;
 
   return (
-    <div className='container'>
+    <div className='container mt-5'>
       <Card title='Listagem de Clientes'>
         <div className='row'>
           <div className='col-lg-12'>
@@ -78,15 +78,23 @@ function ListagemCliente() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
+                  <th scope='col'>id</th>
                     <th scope='col'>Nome</th>
                     <th scope='col'>CPF</th>
+                    <th scope='col'>idPedido</th>
+                    <th scope='col'>idEndereco</th>
+                    <th scope='col'>idProduto</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.cpf}</td>
+                      <td>{dado.nome}</td>
+                      <td>{dado.cpf}</td>                     
+                      <td>{dado.idPedido}</td>
+                      <td>{dado.idEndereco}</td>
+                      <td>{dado.idProduto}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
